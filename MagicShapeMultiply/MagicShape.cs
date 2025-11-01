@@ -26,11 +26,16 @@ namespace MagicShapeMultiply
 
         public static void Multiply()
         {
+            Console.WriteLine("MagicShape Multiply Start");
             using (new SaveStateScope(scnEditor.instance, false, false, false))
             {
-                LevelEvent levelEvent = CustomTabManager.GetEvent((LevelEventType)501);
+                LevelEvent levelEvent = CustomTabManager.GetEvent((LevelEventType)Main.multiplyType);
                 if (levelEvent == null)
+                {
+                    Console.WriteLine("MagicShape Multiply: LevelEvent is null");
                     return;
+                }
+
                 MultiplyType multiplyType = (MultiplyType)levelEvent.data["multiplyType"];
                 float bpm = (float)levelEvent.data["beatsPerMinute"];
                 float multiplier = (float)levelEvent.data["bpmMultiplier"];

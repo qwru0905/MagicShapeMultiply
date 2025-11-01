@@ -105,7 +105,7 @@ namespace MagicShapeMultiply
 
                                 prev.exitangle = angle;
 
-                                vector += scrMisc.getVectorFromAngle(angle, scrController.instance.startRadius);
+                                vector += scrMisc.getVectorFromAngle(angle, scrController.instance.chosenPlanet.cosmeticRadius);
 
                                 GameObject obj = UnityEngine.Object.Instantiate(ADOBase.lm.meshFloor, vector, Quaternion.identity);
                                 obj.name = $"FakeFloor (copy of #{j})";

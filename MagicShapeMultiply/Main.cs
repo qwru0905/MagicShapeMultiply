@@ -21,6 +21,7 @@ namespace MagicShapeMultiply
         public static Localization Localization;
         public static Harmony harmony;
         public static bool IsEnabled = false;
+        public static int multiplyType, createType;
 
         public static Sprite Icon_Multiply { get; private set; }
         public static Sprite Icon_Create { get; private set; }
@@ -112,7 +113,7 @@ namespace MagicShapeMultiply
                 harmony.PatchAll();
                 CustomTabManager.AddTab(
                     icon: Icon_Multiply,
-                    type: 501,
+                    type: multiplyType = CustomTabManager.GetAbleType(),
                     name: "MagicShape_Multiply",
                     title: new Dictionary<SystemLanguage, string>() {
                         { SystemLanguage.Korean, "마법진 승수 맞추기" },
@@ -199,7 +200,7 @@ namespace MagicShapeMultiply
                 );
                 CustomTabManager.AddTab(
                     icon: Icon_Create,
-                    type: 502,
+                    type: createType = CustomTabManager.GetAbleType(),
                     name: "MagicShape_Create",
                     title: new Dictionary<SystemLanguage, string>() {
                         { SystemLanguage.Korean, "마법진 만들기" },
@@ -240,7 +241,7 @@ namespace MagicShapeMultiply
                                     return;
                                 }
                                 using(new SaveStateScope(scnEditor.instance)) {
-                                    LevelEvent levelEvent = CustomTabManager.GetEvent((LevelEventType)502);
+                                    LevelEvent levelEvent = CustomTabManager.GetEvent((LevelEventType)createType);
                                     static int GetIndex(object data)
                                     {
                                         Tuple<int, TileRelativeTo> tuple = (Tuple<int, TileRelativeTo>)data;
