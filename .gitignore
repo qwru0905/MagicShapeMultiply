@@ -1,4 +1,5 @@
 .vs
 *.bat
+*.user
 MagicShapeMultiply/bin
 MagicShapeMultiply/obj

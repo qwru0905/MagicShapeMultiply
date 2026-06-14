@@ -1,0 +1,10 @@
+{
+    "Id": "MagicShapeMultiply",
+    "DisplayName": "MagicShapeMultiply",
+    "Author": "tjwogud",
+    "Version": "3.3.1",
+    "AssemblyName": "MagicShapeMultiply.dll",
+    "EntryMethod": "MagicShapeMultiply.Startup.Load",
+    "LoadAfter": [ "EditorTabLib", "Localizations", "TileTweaks", "R:JofoDuh/EditorTabLib", "R:tjwogud/Localizations" ],
+    "Repository": "https://raw.githubusercontent.com/JofoDuh/MagicShapeMultiply/refs/heads/main/Repository.json"
+}

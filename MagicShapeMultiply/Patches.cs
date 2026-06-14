@@ -15,16 +15,15 @@ namespace MagicShapeMultiply
         [HarmonyPatch(typeof(RDString), "GetWithCheck")]
         public static class GetWithCheck
         {
-            public static void Postfix(ref string __result, ref string key, ref bool exists, ref Dictionary<string, object> parameters)
+            public static void Postfix(ref string __result, string key, ref bool exists, Dictionary<string, object> parameters)
             {
-                //Main.Logger.Log(key);
-                if (Main.Localization.Get(key, out string value, parameters))
+                if (!key.StartsWith("msm.") && !key.StartsWith("enum.MagicShapeMultiply"))
+                    return;
+                if (Main.Localization != null && Main.Localization.Get(key, out string value, parameters))
                 {
                     exists = true;
                     __result = value;
-                    //Main.Logger.Log("value");
                 }
-                //Main.Logger.Log("-------------------------");
             }
         }
 
@@ -66,20 +65,20 @@ namespace MagicShapeMultiply
                         LevelEvent levelEvent = CustomTabManager.GetEvent((LevelEventType)502);
                         if (levelEvent == null)
                             return;
-                        bool show = (bool)levelEvent.data["showPreview"];
+                        bool show = (bool)levelEvent.GetData()["showPreview"];
                         if (!show)
                             return;
 
-                        int startIndex = GetIndex(levelEvent.data["startTile"]);
-                        int endIndex = GetIndex(levelEvent.data["endTile"]);
+                        int startIndex = GetIndex(levelEvent.GetData()["startTile"]);
+                        int endIndex = GetIndex(levelEvent.GetData()["endTile"]);
                         if (startIndex > endIndex)
                         {
                             int temp = startIndex;
                             startIndex = endIndex;
                             endIndex = temp;
                         }
-                        int vertex = (int)levelEvent.data["vertexCount"];
-                        int inverse = (bool)levelEvent.data["inverseAngle"] ? -1 : 1;
+                        int vertex = (int)levelEvent.GetData()["vertexCount"];
+                        int inverse = (bool)levelEvent.GetData()["inverseAngle"] ? -1 : 1;
 
                         GameObject fakeFloor = GameObject.Find("FakeFloors") ?? new GameObject("FakeFloors");
                         scrFloor start = ADOBase.lm.listFloors[startIndex];
@@ -149,8 +148,8 @@ namespace MagicShapeMultiply
                         if (levelEvent == null)
                             return;
 
-                        int startIndex = GetIndex(levelEvent.data["startTile"]);
-                        int endIndex = GetIndex(levelEvent.data["endTile"]);
+                        int startIndex = GetIndex(levelEvent.GetData()["startTile"]);
+                        int endIndex = GetIndex(levelEvent.GetData()["endTile"]);
                         if (ADOBase.lm.listFloors.Count > Mathf.Max(startIndex, endIndex) + 1)
                         {
                             Vector3 vector = fakeFloors.Last().offsetPos;

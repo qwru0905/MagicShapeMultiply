@@ -8,6 +8,7 @@ using Localizations;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using UnityEngine;
 using UnityModManagerNet;
 
@@ -78,7 +79,8 @@ namespace MagicShapeMultiply
                 {
                     byte[] data = File.ReadAllBytes(path);
                     Texture2D texture = new Texture2D(0, 0);
-                    if (texture.LoadImage(data))
+                    MethodInfo loadImageMethod = typeof(ImageConversion).GetMethod("LoadImage", new[] { typeof(Texture2D), typeof(byte[]) });
+                    if ((bool)loadImageMethod.Invoke(null, new object[] { texture, data }))
                     {
                         result = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
                         return true;
@@ -189,9 +191,10 @@ namespace MagicShapeMultiply
                     },
                     onChange: (e, name, prevValue, value) =>
                     {
-                        if (name == "multiplyType" && value is MagicShape.MultiplyType.Bpm)
+                        if (name == "multiplyType")
                         {
-                            e.data["changeShape"] = false;
+                            if (value is MagicShape.MultiplyType.Bpm)
+                                e.GetData()["changeShape"] = false;
                             e.UpdatePanel();
                         }
                         return true;
@@ -248,16 +251,16 @@ namespace MagicShapeMultiply
                                         return Mathf.Clamp(tuple.Item1 + (tuple.Item2 == TileRelativeTo.End ? length : 0), 0, length);
                                     }
 
-                                    int startIndex = GetIndex(levelEvent.data["startTile"]);
-                                    int endIndex = GetIndex(levelEvent.data["endTile"]);
+                                    int startIndex = GetIndex(levelEvent.GetData()["startTile"]);
+                                    int endIndex = GetIndex(levelEvent.GetData()["endTile"]);
                                     if (startIndex > endIndex)
                                     {
                                         int temp = startIndex;
                                         startIndex = endIndex;
                                         endIndex = temp;
                                     }
-                                    int vertex = (int)levelEvent.data["vertexCount"];
-                                    int inverse = (bool)levelEvent.data["inverseAngle"] ? -1 : 1;
+                                    int vertex = (int)levelEvent.GetData()["vertexCount"];
+                                    int inverse = (bool)levelEvent.GetData()["inverseAngle"] ? -1 : 1;
 
                                     List<float> angles = new List<float>();
                                     for (int i = 1; i < vertex; i++)
@@ -269,7 +272,7 @@ namespace MagicShapeMultiply
                                         }
                                     }
                                     scnEditor.instance.levelData.angleData.InsertRange(endIndex, angles);
-                                    levelEvent.data["showPreview"] = false;
+                                    levelEvent.GetData()["showPreview"] = false;
                                     levelEvent.UpdatePanel();
                                     scnEditor.instance.RemakePath();
                                 }

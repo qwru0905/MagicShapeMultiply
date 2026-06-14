@@ -1,0 +1,14 @@
+<Project>
+  <PropertyGroup>
+    <!-- 본인의 ADOFAI 설치 경로에 맞게 수정한 뒤, 이 파일을 MagicShapeMultiply.csproj.user 로 복사하세요. -->
+    <!-- Update this to your own ADOFAI install path, then copy this file to MagicShapeMultiply.csproj.user -->
+    <AdofaiManagedDir>C:\Program Files (x86)\Steam\steamapps\common\A Dance of Fire and Ice\A Dance of Fire and Ice_Data\Managed</AdofaiManagedDir>
+    <!-- EditorTabLib.dll, Localizations.dll 빌드 결과물 경로 (기본값: 04_EditorTabLib, 06_Localizations 빌드 출력) -->
+    <!-- Path to built EditorTabLib.dll / Localizations.dll (defaults to 04_EditorTabLib / 06_Localizations build output) -->
+    <!-- <EditorTabLibDir>..\..\04_EditorTabLib\EditorTabLib\bin\Debug\net4.8</EditorTabLibDir> -->
+    <!-- <LocalizationsDir>..\..\06_Localizations\bin\Debug\net4.8</LocalizationsDir> -->
+    <!-- 게임의 Mods 폴더 경로 (기본값: AdofaiManagedDir\..\..\Mods). 이 경로 아래에 MagicShapeMultiply 폴더가 이미 존재해야 빌드 후 DLL이 자동 복사됩니다. -->
+    <!-- Path to the game's Mods folder (defaults to AdofaiManagedDir\..\..\Mods). The DLL is auto-copied after build only if a MagicShapeMultiply folder already exists there. -->
+    <!-- <AdofaiModsDir>C:\Program Files (x86)\Steam\steamapps\common\A Dance of Fire and Ice\Mods</AdofaiModsDir> -->
+  </PropertyGroup>
+</Project>

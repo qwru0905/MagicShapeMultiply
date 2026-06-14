@@ -31,14 +31,14 @@ namespace MagicShapeMultiply
                 LevelEvent levelEvent = CustomTabManager.GetEvent((LevelEventType)501);
                 if (levelEvent == null)
                     return;
-                MultiplyType multiplyType = (MultiplyType)levelEvent.data["multiplyType"];
-                float bpm = (float)levelEvent.data["beatsPerMinute"];
-                float multiplier = (float)levelEvent.data["bpmMultiplier"];
-                MultiplyType setSpeedType = (MultiplyType)levelEvent.data["setSpeedType"];
-                Angle? direction = levelEvent.disabled["direction"] ? null : (Angle)levelEvent.data["direction"];
-                ShowEvent showEvent = (ShowEvent)levelEvent.data["showEvent"];
-                bool changeShape = (bool)levelEvent.data["changeShape"] == true;
-                int? angleCorrection = levelEvent.disabled["angleCorrection"] ? null : (int)levelEvent.data["angleCorrection"];
+                MultiplyType multiplyType = (MultiplyType)levelEvent.GetData()["multiplyType"];
+                float bpm = (float)levelEvent.GetData()["beatsPerMinute"];
+                float multiplier = (float)levelEvent.GetData()["bpmMultiplier"];
+                MultiplyType setSpeedType = (MultiplyType)levelEvent.GetData()["setSpeedType"];
+                Angle? direction = levelEvent.disabled["direction"] ? null : (Angle)levelEvent.GetData()["direction"];
+                ShowEvent showEvent = (ShowEvent)levelEvent.GetData()["showEvent"];
+                bool changeShape = (bool)levelEvent.GetData()["changeShape"] == true;
+                int? angleCorrection = levelEvent.disabled["angleCorrection"] ? null : (int)levelEvent.GetData()["angleCorrection"];
                 Tuple<int, Dictionary<string, object>> result;
                 switch (multiplyType)
                 {
@@ -162,13 +162,13 @@ namespace MagicShapeMultiply
                 LevelEvent item = new LevelEvent(eventFloor, LevelEventType.SetSpeed);
                 if (setSpeedType == MultiplyType.Bpm)
                 {
-                    item.data["speedType"] = MultiplyType.Bpm;
-                    item.data["beatsPerMinute"] = (float)applyBpm;
+                    item.GetData()["speedType"] = MultiplyType.Bpm;
+                    item.GetData()["beatsPerMinute"] = (float)applyBpm;
                 }
                 else
                 {
-                    item.data["speedType"] = MultiplyType.Multiplier;
-                    item.data["bpmMultiplier"] = (float)(applyBpm / prevBpm);
+                    item.GetData()["speedType"] = MultiplyType.Multiplier;
+                    item.GetData()["bpmMultiplier"] = (float)(applyBpm / prevBpm);
                 }
                 if (showEvent == ShowEvent.Twirl)
                     editor.events.Add(item);
@@ -265,13 +265,13 @@ namespace MagicShapeMultiply
                 LevelEvent item = floorEvents[i - floors[0].seqID] ?? new LevelEvent(eventFloor, LevelEventType.SetSpeed);
                 if (setSpeedType == MultiplyType.Bpm)
                 {
-                    item.data["speedType"] = MultiplyType.Bpm;
-                    item.data["beatsPerMinute"] = (float)applyBpm;
+                    item.GetData()["speedType"] = MultiplyType.Bpm;
+                    item.GetData()["beatsPerMinute"] = (float)applyBpm;
                 }
                 else
                 {
-                    item.data["speedType"] = MultiplyType.Multiplier;
-                    item.data["bpmMultiplier"] = (float)(applyBpm / prevBpm);
+                    item.GetData()["speedType"] = MultiplyType.Multiplier;
+                    item.GetData()["bpmMultiplier"] = (float)(applyBpm / prevBpm);
                 }
                 if (showEvent == ShowEvent.Twirl)
                     editor.events.Add(item);
@@ -334,8 +334,8 @@ namespace MagicShapeMultiply
                     else
                     {
                         LevelEvent ev = new LevelEvent(floor.seqID, LevelEventType.Pause);
-                        ev.data["duration"] = (float)((int)(angleLength / multiplier / 360) + 1);
-                        ev.data["angleCorrectionDir"] = angleCorrection.Value;
+                        ev.GetData()["duration"] = (float)((int)(angleLength / multiplier / 360) + 1);
+                        ev.GetData()["angleCorrectionDir"] = angleCorrection.Value;
                         scnEditor.instance.events.Add(ev);
                     }
                 if (editor.levelData.isOldLevel)
